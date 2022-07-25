@@ -44,10 +44,3 @@ class NotesHandler:
             self.notes.delete_note(user_id=user_id, note_id=id)
         except Exception as e:
             print(e.args)
-
-    def get_all_the_notes(self):
-        try:
-            return self.notes.find_all_notes()
-        except Exception as e:
-            print(e.args)
-            raise

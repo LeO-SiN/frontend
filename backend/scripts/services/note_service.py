@@ -81,14 +81,3 @@ def delete_note(id: str, user_data=Depends(jwt.get_current_user)):
         )
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.args)
-
-
-@notes_router.get(APIEndpoints.get_notes, status_code=status.HTTP_200_OK)
-def get_notes(user_data=Depends(jwt.get_current_user)):
-    try:
-        notes_handler = NotesHandler()
-        posts = notes_handler.get_all_the_posts()
-        return posts
-    except Exception as e:
-        print(e.args)
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
