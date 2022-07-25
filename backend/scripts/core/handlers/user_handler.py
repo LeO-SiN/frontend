@@ -1,7 +1,8 @@
 from scripts.db.mongo.users.collections.users import Users
 from scripts.db.mongo import mongo_client
 from scripts.utils.security.hash import hashPassword
-
+import string
+import random
 
 class UserHandler:
     def __init__(self):
@@ -23,8 +24,11 @@ class UserHandler:
 
     def create_one(self, data: dict):
         try:
+            print(data)
             data["password"] = hashPassword(data["password"])
+            data["user_id"] = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
             self.users.create_user(data=dict(data))
+            return True
         except Exception as e:
             print(e.args)
 

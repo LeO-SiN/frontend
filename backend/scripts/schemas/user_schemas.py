@@ -6,7 +6,6 @@ class UserRequestSchema(BaseModel):
     name: str
     email: EmailStr
     password: str
-    user_id: Optional[int]
 
 
 class DefaultResponse(BaseModel):

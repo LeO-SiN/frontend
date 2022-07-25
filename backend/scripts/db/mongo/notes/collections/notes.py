@@ -1,5 +1,5 @@
 from typing import Optional
-from backend.scripts.constants import CollectionNames, DatabasesNames
+from scripts.constants import CollectionNames, DatabasesNames
 from scripts.db.mongo.schema import MongoBaseSchema
 from scripts.utils.mongo_util import MongoCollectionBaseClass
 

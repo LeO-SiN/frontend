@@ -30,7 +30,7 @@ class JWT:
 
             payload = jwt.decode(token, Secrets.UNIQUE_KEY, algorithms=[Secrets.ALG])
             email: str = payload.get("email")
-            user_id: int = payload.get("user_id")
+            user_id: str = payload.get("user_id")
             
             
             if user_id is None:

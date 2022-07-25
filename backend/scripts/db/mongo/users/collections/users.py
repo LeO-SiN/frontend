@@ -16,7 +16,7 @@ class Users(MongoCollectionBaseClass):
     def __init__(self, mongo_client):
         super().__init__(
             mongo_client=mongo_client,
-            database=DatabasesNames.users,
+            database=DatabasesNames.notebook,
             collection=CollectionNames.users,
         )
 
@@ -27,11 +27,6 @@ class Users(MongoCollectionBaseClass):
 
     def find_user(self, email):
         user = self.find_one(query={"email": email})
-        if user:
-            return user
-    
-    def find_user_by_mail(self,email):
-        user = self.find_one(query={"email":email})
         if user:
             return user
 

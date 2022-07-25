@@ -35,11 +35,10 @@ class LoginHandler:
     def check_new_user(self, email: EmailStr):
         try:
             ret = self.users.find_user(email=email)
-            if ret:
+            if ret == None:
                 return False
             return True
-        
+
         except Exception as e:
             print(e.args)
             raise
-            

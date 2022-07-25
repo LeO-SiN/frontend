@@ -10,8 +10,9 @@ user_cred = APIRouter()
 @user_cred.post("/login")
 def login(cred: OAuth2PasswordRequestForm = Depends()):
     try:
+        print(cred.username, cred.password)
         login_handler = LoginHandler()
-        response, user_id = login_handler.validate_user(
+        response,email, user_id = login_handler.validate_user(
             {"email": cred.username, "password": cred.password}
         )
         if response:
