@@ -4,7 +4,7 @@ from scripts.db.mongo.schema import MongoBaseSchema
 from scripts.utils.mongo_util import MongoCollectionBaseClass
 
 
-class PostsSchema(MongoBaseSchema):
+class NoteSchema(MongoBaseSchema):
     note_title: str
     note_content: str
     tags: Optional[list] = []
@@ -18,13 +18,13 @@ class Notes(MongoCollectionBaseClass):
             collection=CollectionNames.notes,
         )
 
-    def find_all_notes(self, user_id: int):
+    def find_all_notes(self, user_id: str):
         notes = self.find(query={"user_id": user_id})
         if notes:
             return list(notes)
 
     def find_note(self, user_id, note_id):
-        note = self.find(query={"user_id": user_id, "note_id": note_id})
+        note = self.find_one(query={"user_id": user_id, "note_id": note_id})
         if note:
             return note
 
@@ -32,7 +32,7 @@ class Notes(MongoCollectionBaseClass):
         self.insert_one(data=data)
     
     def update_note(self,user_id,note_id,data:dict):
-        self.update_one(query={"user_id":user_id, "note_id":note_id}, data=data)
+        self.update_one(query={"user_id":user_id, "note_id":note_id}, data=data, upsert=False)
     
     def delete_note(self,user_id,note_id):
         self.delete_one(query={"user_id":user_id, "note_id":note_id})

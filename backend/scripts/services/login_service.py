@@ -10,7 +10,6 @@ user_cred = APIRouter()
 @user_cred.post("/login")
 def login(cred: OAuth2PasswordRequestForm = Depends()):
     try:
-        print(cred.username, cred.password)
         login_handler = LoginHandler()
         response,email, user_id = login_handler.validate_user(
             {"email": cred.username, "password": cred.password}
@@ -49,13 +48,10 @@ def register(user_det: UserRequestSchema):
             else:
                 raise
         else:
-            return {
-                "status": "Failed",
-                "details": "Email ID already exist",
-            }
+            raise
 
     except Exception as e:
         print(e.args)
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=e.args
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="email already existing"
         )

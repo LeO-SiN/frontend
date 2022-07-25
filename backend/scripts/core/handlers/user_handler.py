@@ -24,7 +24,6 @@ class UserHandler:
 
     def create_one(self, data: dict):
         try:
-            print(data)
             data["password"] = hashPassword(data["password"])
             data["user_id"] = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
             self.users.create_user(data=dict(data))

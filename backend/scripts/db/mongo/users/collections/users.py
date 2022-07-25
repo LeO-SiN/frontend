@@ -1,4 +1,3 @@
-from typing import Optional
 from pydantic import EmailStr
 from scripts.constants import DatabasesNames, CollectionNames
 from scripts.db.mongo.schema import MongoBaseSchema
