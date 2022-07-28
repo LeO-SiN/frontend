@@ -3,35 +3,47 @@ import NoteContext from "./NoteContext.js";
 
 const NoteState = (props) => {
     const host = "http://localhost/notes/";
-    const notesInitial = []
+    const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTAxMDkwMX0.VjfJRPuBXhF4Y2qBvb7jIm7yxOT41MZmHNYq0yZDyMM");
+    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTAxMjk5MH0.IMy4MY8YOCKDuYZS2B0nhaldmJPCDWsmGEqE_uOZ_aY");
     const getNotes = async () => {
-       
+
         var requestOptions = {
             method: 'GET',
             headers: myHeaders
         };
-        const url = host + "find_notes"
+        const url = host + "find_notes";
+
         const response = await fetch(url, requestOptions)
             .then(response => response.json())
-            // .then(result => console.log(result.data))
-            // .catch(error => console.log('error', error));
-        console.log(response.data)
+        // .then(result => console.log(result.data))
+        // .catch(error => console.log('error', error));
+        // console.log(response.data)
         setNotes(response.data)
     }
 
     // Add note
     const addNote = async (title, description, tag) => {
-        const url = host + "create_note"
+        const url = host + "create_note";
+        myHeaders.append("Content-Type", "application/json");
 
-        const response = await fetch(url, {
+        var raw = JSON.stringify({
+            "title": title,
+            "description": description,
+            "tag": tag
+        });
+
+        var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-
-            body: JSON.stringify({ title, description, tag })
-        });
+            body: raw,
+            redirect: 'follow'
+        };
+        const response = await fetch(url, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 
         const note = {
             "title": title,
@@ -66,7 +78,7 @@ const NoteState = (props) => {
     }
     // Delete Note
     const deleteNote = async (id) => {
-        
+
         const url = host + `delete_note/${id}`
 
         const response = await fetch(url, {

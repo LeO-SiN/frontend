@@ -46,6 +46,7 @@ def get_note_by_id(id: str, user_data=Depends(jwt.get_current_user)):
 )
 def create_note(note: NotesSchema, user_data=Depends(jwt.get_current_user)):
     try:
+        print(note)
         notes_handler = NotesHandler()
         notes_handler.create_one(data=note.dict(), user_id=user_data["user_id"])
         return note
