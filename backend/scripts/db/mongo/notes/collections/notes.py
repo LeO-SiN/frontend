@@ -7,8 +7,7 @@ from scripts.utils.mongo_util import MongoCollectionBaseClass
 class NoteSchema(MongoBaseSchema):
     note_title: str
     note_content: str
-    tags: Optional[list] = []
-
+    tag: str
 
 class Notes(MongoCollectionBaseClass):
     def __init__(self, mongo_client):

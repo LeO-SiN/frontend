@@ -1,14 +1,16 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import NoteContext from '../context/notes/NoteContext'
 
 const AddNote = () => {
     const context = useContext(NoteContext);
     const {addNote} = context;
-    const handleClick = () =>{
-
+    const [note, setNote] = useState({title: "",desc:"", tag: ""})
+    const handleClick = (e) =>{
+        e.preventDefault()
+        addNote(note.title, note.desc, note.tag)
     }
-    const onChange = () =>{
-
+    const onChange = (e) =>{
+        setNote({...note, [e.target.name]:e.target.value})
     }
     return (
         <div className='container my-3'>
@@ -23,8 +25,8 @@ const AddNote = () => {
                     <textarea className="form-control" id="desc" name="desc" rows="3"  onChange={onChange}></textarea>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="tags" className="form-label">Tags</label>
-                    <input type="text" className="form-control" id="tags" name="tags" placeholder="Tags" />
+                    <label htmlFor="tag" className="form-label">Tag</label>
+                    <input type="text" className="form-control" name="tag" id="tag" placeholder="Tag" onChange={onChange}/>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={handleClick}>Submit</button>
             </form>
