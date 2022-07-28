@@ -17,7 +17,7 @@ def find_notes(user_data=Depends(jwt.get_current_user)):
         notes_handler = NotesHandler()
         response = notes_handler.find_notes(user_id=user_data["user_id"])
         return DefaultResponse(
-            status="Success", message="Found All posts Available", data=response
+            status="Success", message="Found All notes Available", data=response
         )
     except Exception as e:
         print(e.args)
@@ -32,10 +32,10 @@ def get_note_by_id(id: str, user_data=Depends(jwt.get_current_user)):
         response = notes_handler.find_one(id=id, user_id=user_data["user_id"])
         if response:
             return DefaultResponse(
-                status="Success", message=f"Found Post with ID: {id}", data=response
+                status="Success", message=f"Found Note with ID: {id}", data=response
             )
         else:
-            return DefaultResponse(message=f"Couldn't find a post with ID {id}")
+            return DefaultResponse(message=f"Couldn't find a note with ID {id}")
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.args)
 
@@ -44,11 +44,11 @@ def get_note_by_id(id: str, user_data=Depends(jwt.get_current_user)):
     APIEndpoints.create_note,
     status_code=status.HTTP_201_CREATED,
 )
-def create_note(post: NotesSchema, user_data=Depends(jwt.get_current_user)):
+def create_note(note: NotesSchema, user_data=Depends(jwt.get_current_user)):
     try:
         notes_handler = NotesHandler()
-        notes_handler.create_one(data=post.dict(), user_id=user_data["user_id"])
-        return post
+        notes_handler.create_one(data=note.dict(), user_id=user_data["user_id"])
+        return note
     except Exception as e:
         print(e.args)
         raise HTTPException(
@@ -57,12 +57,12 @@ def create_note(post: NotesSchema, user_data=Depends(jwt.get_current_user)):
 
 
 @notes_router.put(APIEndpoints.update_note + "/{id}", status_code=status.HTTP_200_OK)
-def update_note(id: str, post: NotesSchema, user_data=Depends(jwt.get_current_user)):
+def update_note(id: str, note: NotesSchema, user_data=Depends(jwt.get_current_user)):
     try:
         notes_handler = NotesHandler()
-        notes_handler.update_one(user_id=user_data["user_id"], id=id, data=post.dict())
+        notes_handler.update_one(user_id=user_data["user_id"], id=id, data=note.dict())
         return DefaultResponse(
-            status="Success", message="Successfully updated post", data=post
+            status="Success", message="Successfully updated note", data=note
         )
 
     except Exception as e:
@@ -77,7 +77,7 @@ def delete_note(id: str, user_data=Depends(jwt.get_current_user)):
         notes_handler = NotesHandler()
         notes_handler.delete_one(id=id, user_id=user_data["user_id"])
         return DefaultResponse(
-            status="Success", message=f"Successfully deleted post with {id}"
+            status="Success", message=f"Successfully deleted note with {id}"
         )
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.args)

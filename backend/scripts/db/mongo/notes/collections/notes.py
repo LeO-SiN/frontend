@@ -5,8 +5,8 @@ from scripts.utils.mongo_util import MongoCollectionBaseClass
 
 
 class NoteSchema(MongoBaseSchema):
-    note_title: str
-    note_content: str
+    title: str
+    description: str
     tag: str
 
 class Notes(MongoCollectionBaseClass):

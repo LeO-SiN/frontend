@@ -4,10 +4,10 @@ import NoteContext from '../context/notes/NoteContext'
 const AddNote = () => {
     const context = useContext(NoteContext);
     const {addNote} = context;
-    const [note, setNote] = useState({title: "",desc:"", tag: ""})
+    const [note, setNote] = useState({title: "",description:"", tag: ""})
     const handleClick = (e) =>{
         e.preventDefault()
-        addNote(note.title, note.desc, note.tag)
+        addNote(note.title, note.description, note.tag)
     }
     const onChange = (e) =>{
         setNote({...note, [e.target.name]:e.target.value})
@@ -21,8 +21,8 @@ const AddNote = () => {
                     <input type="text" className="form-control" name="title" id="title" placeholder="Note Title" onChange={onChange}/>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="desc" className="form-label">Description</label>
-                    <textarea className="form-control" id="desc" name="desc" rows="3"  onChange={onChange}></textarea>
+                    <label htmlFor="description" className="form-label">Description</label>
+                    <textarea className="form-control" id="description" name="description" rows="3"  onChange={onChange}></textarea>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>

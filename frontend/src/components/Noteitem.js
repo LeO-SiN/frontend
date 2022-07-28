@@ -10,11 +10,11 @@ const Noteitem = (props) => {
             <div className="card my-4">
                 <div className="card-body">
                     <div className="d-flex align-items-center">
-                        <h5 className="card-title">{note.note_title}</h5>
+                        <h5 className="card-title">{note.title}</h5>
                         <i className="fa-solid fa-trash-can mx-3" onClick={() =>{deleteNote(note.note_id)}}></i>
                         <i className="fa-solid fa-pencil"></i>
                     </div>
-                    <p className="card-text">{note.note_content}</p>
+                    <p className="card-text">{note.description}</p>
                 </div>
             </div>
         </div>

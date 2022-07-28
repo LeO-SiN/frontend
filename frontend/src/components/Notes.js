@@ -9,7 +9,7 @@ function Notes() {
     useEffect(() => {
       getNotes()
       }
-    , )
+    , [])
     
   return (
     <>
