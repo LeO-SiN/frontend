@@ -6,7 +6,7 @@ const NoteState = (props) => {
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTAxMjk5MH0.IMy4MY8YOCKDuYZS2B0nhaldmJPCDWsmGEqE_uOZ_aY");
+    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTExMDk2MH0.pZ7MbAmHFfFthp7ZmNlHJQ3qequFLhSRa5a7g74PUrY");
     const getNotes = async () => {
 
         var requestOptions = {
@@ -40,7 +40,7 @@ const NoteState = (props) => {
             body: raw,
             redirect: 'follow'
         };
-        const response = await fetch(url, requestOptions)
+        await fetch(url, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -60,7 +60,7 @@ const NoteState = (props) => {
     const editNote = async (id, title, description, tag) => {
         const url = host + `update_note/${id}`
 
-        const response = await fetch(url, {
+        await fetch(url, {
             method: 'PUT',
             headers: myHeaders,
 
@@ -81,7 +81,7 @@ const NoteState = (props) => {
 
         const url = host + `delete_note/${id}`
 
-        const response = await fetch(url, {
+        await fetch(url, {
             method: 'DELETE',
             headers: myHeaders,
 
