@@ -29,6 +29,7 @@ class NotesHandler:
             data["user_id"] = user_id
             data["created_at"] = "{}".format(datetime.now())
             self.notes.create_note(data=dict(data))
+            return data
         except Exception as e:
             print(e.args)
 

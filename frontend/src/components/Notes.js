@@ -8,7 +8,7 @@ function Notes() {
   const { notes, getNotes, editNote } = context;
   useEffect(() => {
     getNotes()
-    // eslint-disable-next-line
+
   }
     , [])
   const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
@@ -22,7 +22,7 @@ function Notes() {
   const handleClick = (e) => {
     editNote(note.id, note.etitle, note.edescription, note.etag)
     refClose.current.click()
-
+    
 
   }
   const onChange = (e) => {
@@ -32,9 +32,8 @@ function Notes() {
     <>
       <AddNote />
 
-      <button type="button" className="btn btn-primary d-none" ref={ref} data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-      </button>
+      <button type="button" className="btn btn-primary d-none" ref={ref} data-bs-toggle="modal" data-bs-target="#exampleModal" />
+
 
 
       <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,14 +63,18 @@ function Notes() {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={refClose}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
+              <button disabled={note.etitle.length < 3 || note.edescription.length < 5} type="button" className="btn btn-primary" onClick={handleClick}>Update Note</button>
             </div>
           </div>
         </div>
       </div>
       <div className='row my-3'>
-        <h2>Your Notes</h2>
+        <h2>Your Notes</h2><div className='container mx-1'>
+          {notes.length === 0 && "No Notes to display"}
+        </div>
+
         {
+
           notes.map((note) => {
             return <Noteitem key={note.note_id} updateNote={updateNote} note={note} />
           })

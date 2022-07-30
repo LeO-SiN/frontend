@@ -6,7 +6,7 @@ const NoteState = (props) => {
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTE1NTk4Mn0.19ezSVv0jI1Q8RQKeUJyPqkoBcsSQ3pKWNPLmVPAmuY");
+    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTE1OTcxNX0.uylzIGUaUoFUkBm-H1GZuJh7l4_94S2e76rymtz8LHw");
     const getNotes = async () => {
 
         var requestOptions = {
@@ -15,11 +15,7 @@ const NoteState = (props) => {
         };
         const url = host + "find_notes";
 
-        const response = await fetch(url, requestOptions)
-            .then(response => response.json())
-        // .then(result => console.log(result.data))
-        // .catch(error => console.log('error', error));
-        // console.log(response.data)
+        const response = await fetch(url, requestOptions).then(response => response.json())
         setNotes(response.data)
     }
 
@@ -40,21 +36,9 @@ const NoteState = (props) => {
             body: raw,
             redirect: 'follow'
         };
-        await fetch(url, requestOptions)
-            .then(response => response.text())
-            // .then(result => console.log(result))
-            // .catch(error => console.log('error', error));
-
-        const note = {
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "note_id": "ESAH1IL177_W7P",
-            "user_id": "ESAH1IL177",
-            "created_at": "2022-07-26 13:07:13.867561"
-
-        };
-        setNotes(notes.concat(note))
+        const response = await fetch(url, requestOptions)
+        const json = await response.json()
+        setNotes(notes.concat(json))
     }
     // Edit Note
     const editNote = async (id, title, description, tag) => {
@@ -73,8 +57,6 @@ const NoteState = (props) => {
         };
         await fetch(url, requestOptions)
             .then(response => response.text())
-            // .then(result => console.log(result))
-            // .catch(error => console.log('error', error));
 
         let newNotes = JSON.parse(JSON.stringify(notes))
         for (let index = 0; index < newNotes.length; index++) {
@@ -85,9 +67,8 @@ const NoteState = (props) => {
                 newNotes[index].tag = tag;
                 break;
             }
-            setNotes(newNotes);
-
         }
+        setNotes(newNotes);
     }
     // Delete Note
     const deleteNote = async (id) => {
