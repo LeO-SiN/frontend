@@ -11,16 +11,17 @@ user_cred = APIRouter()
 def login(cred: OAuth2PasswordRequestForm = Depends()):
     try:
         login_handler = LoginHandler()
-        response,email, user_id = login_handler.validate_user(
+        response, email, user_id = login_handler.validate_user(
             {"email": cred.username, "password": cred.password}
         )
         if response:
 
             return {
+                "detail": {"success": True,
                 "access_token": login_handler.create_jwt_token(
                     {"email": cred.username, "user_id": user_id}
                 ),
-                "token_type": "bearer",
+                "token_type": "bearer"}
             }
         else:
             raise Exception
@@ -28,7 +29,7 @@ def login(cred: OAuth2PasswordRequestForm = Depends()):
         print(e.args)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect Username or Password",
+            detail={"success": False, "detail": "Incorrect Username or Password"},
         )
 
 
@@ -53,5 +54,6 @@ def register(user_det: UserRequestSchema):
     except Exception as e:
         print(e.args)
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="email already existing"
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="email already existing",
         )

@@ -1,31 +1,34 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom"
-const Login = (props) => {
-    const url = "http://localhost/login"
-    const [cred, setCred] = useState({ email: "", password: "" })
+const Signup = (props) => {
+    const url = "http://localhost/register"
+    const [cred, setCred] = useState({ name: "", email: "", password: "" })
     const onChange = (e) => {
         setCred({ ...cred, [e.target.name]: e.target.value })
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        var formdata = new FormData();
-        formdata.append("username", cred.email);
-        formdata.append("password", cred.password);
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "name": "Faizan Azim",
+            "email": "faizanazim11@gmail.com",
+            "password": "qwerty1234"
+        });
 
         var requestOptions = {
             method: 'POST',
-            body: formdata,
+            headers: myHeaders,
+            body: raw,
             redirect: 'follow'
         };
 
-        const response = await fetch(url, requestOptions)
-        const json = await response.json()
-        if (json.detail.success){
-            console.log(json.detail)
-        }
-        else{
-            alert("Invalid Username or Password")
-        }
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
     }
     return (
         <div style={{
@@ -42,6 +45,13 @@ const Login = (props) => {
                     </div>
                     <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                         <form onSubmit={handleSubmit}>
+
+                        <div className="form-outline mb-4">
+                                <label className="form-label" htmlFor="name">Name</label>
+                                <input type="text" id="name" name="name" className="form-control form-control-lg" value={cred.name} onChange={onChange}
+                                    placeholder="Enter your name" />
+
+                            </div>
 
 
                             <div className="form-outline mb-4">
@@ -65,9 +75,9 @@ const Login = (props) => {
 
                             <div className="text-center text-lg-start mt-4 pt-2">
                                 <button type="submit" className="btn btn-primary btn-lg"
-                                >Login</button>
-                                <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <Link to="/signup"
-                                    className="link-danger">Sign Up</Link></p>
+                                >Sign Up</button>
+                                <p className="small fw-bold mt-2 pt-1 mb-0">Already have an account? <Link to="/login"
+                                    className="link-danger">Login</Link></p>
                             </div>
 
                         </form>
@@ -78,4 +88,4 @@ const Login = (props) => {
     )
 }
 
-export default Login
+export default Signup
