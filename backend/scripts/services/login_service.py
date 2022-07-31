@@ -42,7 +42,7 @@ def register(user_det: UserRequestSchema):
             ret = user_handler.create_one(user_det.dict())
             if ret:
                 return {
-                    "status": "Success",
+                    "status": True,
                     "name": user_det.name,
                     "email": user_det.email,
                 }

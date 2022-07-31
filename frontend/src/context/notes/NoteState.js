@@ -6,7 +6,8 @@ const NoteState = (props) => {
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNheWVkaW1yYW4wMDc4NkBnbWFpbC5jb20iLCJ1c2VyX2lkIjoiRVNBSDFJTDE3NyIsImV4cCI6MTY1OTE2MzQxOX0.BNl_CmVUda2aeNzax2dVsn86bVNlv9AKdx_BCE9za4k");
+    var token = localStorage.getItem('token')
+    myHeaders.append("Authorization", `Bearer ${token}`);
     const getNotes = async () => {
 
         var requestOptions = {
@@ -14,9 +15,11 @@ const NoteState = (props) => {
             headers: myHeaders
         };
         const url = host + "find_notes";
+        
 
-        const response = await fetch(url, requestOptions).then(response => response.json())
-        setNotes(response.data)
+        const response = await fetch(url, requestOptions)
+        const json = await response.json()
+        setNotes(json.data)
     }
 
     // Add note

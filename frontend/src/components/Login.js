@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+
 const Login = (props) => {
     const url = "http://localhost/login"
     const [cred, setCred] = useState({ email: "", password: "" })
+    let navigate = useNavigate();
     const onChange = (e) => {
         setCred({ ...cred, [e.target.name]: e.target.value })
     }
@@ -21,7 +23,9 @@ const Login = (props) => {
         const response = await fetch(url, requestOptions)
         const json = await response.json()
         if (json.detail.success){
-            console.log(json.detail)
+            localStorage.setItem("token", json.detail.access_token)
+            setTimeout(navigate("/"), 1500);
+            
         }
         else{
             alert("Invalid Username or Password")
@@ -47,7 +51,7 @@ const Login = (props) => {
                             <div className="form-outline mb-4">
                                 <label className="form-label" htmlFor="form3Example3">Email address</label>
                                 <input type="email" id="email" name="email" className="form-control form-control-lg" value={cred.email} onChange={onChange}
-                                    placeholder="Enter a valid email address" />
+                                    placeholder="Enter a valid email address" required/>
 
                             </div>
 
@@ -55,7 +59,7 @@ const Login = (props) => {
                             <div className="form-outline mb-3">
                                 <label className="form-label" htmlFor="form3Example4">Password</label>
                                 <input type="password" id="password" name="password" className="form-control form-control-lg" value={cred.password} onChange={onChange}
-                                    placeholder="Enter password" />
+                                    placeholder="Enter password" required />
 
                             </div>
 
