@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+
 import NoteContext from "./NoteContext.js";
 
 const NoteState = (props) => {
@@ -6,24 +8,30 @@ const NoteState = (props) => {
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     var myHeaders = new Headers();
-    var token = localStorage.getItem('token')
-    myHeaders.append("Authorization", `Bearer ${token}`);
+    
     const getNotes = async () => {
+        var token = localStorage.getItem('token')
+        myHeaders.append("Authorization", `Bearer ${token}`);
 
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders
-        };
         const url = host + "find_notes";
-        
+        var config = {
+            method: 'get',
+            url: url,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
 
-        const response = await fetch(url, requestOptions)
-        const json = await response.json()
-        setNotes(json.data)
+        await axios(config).then(response => { 
+
+            setNotes(response.data.data)
+         }).catch((error) => console.log(error));
     }
 
     // Add note
     const addNote = async (title, description, tag) => {
+        var token = localStorage.getItem('token')
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const url = host + "create_note";
         myHeaders.append("Content-Type", "application/json");
 
@@ -45,6 +53,8 @@ const NoteState = (props) => {
     }
     // Edit Note
     const editNote = async (id, title, description, tag) => {
+        var token = localStorage.getItem('token')
+        myHeaders.append("Authorization", `Bearer ${token}`);
         const url = host + `update_note/${id}`
         myHeaders.append("Content-Type", "application/json");
         var raw = JSON.stringify({
@@ -75,6 +85,8 @@ const NoteState = (props) => {
     }
     // Delete Note
     const deleteNote = async (id) => {
+        var token = localStorage.getItem('token')
+        myHeaders.append("Authorization", `Bearer ${token}`);
 
         const url = host + `delete_note/${id}`
 

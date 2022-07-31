@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom"
+import axios from "axios";
+
 
 const Login = (props) => {
     const url = "http://localhost/login"
@@ -14,22 +16,25 @@ const Login = (props) => {
         formdata.append("username", cred.email);
         formdata.append("password", cred.password);
 
-        var requestOptions = {
-            method: 'POST',
-            body: formdata,
-            redirect: 'follow'
+        var config = {
+            method: 'post',
+            url: url,
+            data: formdata
         };
 
-        const response = await fetch(url, requestOptions)
-        const json = await response.json()
-        if (json.detail.success){
-            localStorage.setItem("token", json.detail.access_token)
-            setTimeout(navigate("/"), 1500);
-            
-        }
-        else{
-            alert("Invalid Username or Password")
-        }
+        await axios(config).then((response) => {
+            var resp_json = response.data;
+            if (resp_json.detail.success) {
+                localStorage.setItem("token", resp_json.detail.access_token);
+                navigate("/");
+            }
+            else
+            props.showAlert("Invalid Credentials","danger");
+        }).catch((err) => {
+            console.log(err)
+            props.showAlert("Invalid Credentials","danger");
+        });
+
     }
     return (
         <div style={{
@@ -51,7 +56,7 @@ const Login = (props) => {
                             <div className="form-outline mb-4">
                                 <label className="form-label" htmlFor="form3Example3">Email address</label>
                                 <input type="email" id="email" name="email" className="form-control form-control-lg" value={cred.email} onChange={onChange}
-                                    placeholder="Enter a valid email address" required/>
+                                    placeholder="Enter a valid email address" required />
 
                             </div>
 

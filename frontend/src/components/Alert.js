@@ -1,12 +1,17 @@
 import React from 'react'
 
-const Alert = (props) => {
+function Alert(props) {
+    const capitalize = (word)=>{
+        if (word === "danger")
+            var word = "Error";
+        const lower = word.toLowerCase();
+        return lower.charAt(0).toUpperCase() + lower.slice(1);
+    }
     return (
-        <div className="alert alert-danger d-flex align-items-center" role="alert">
-            <svg className="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"></svg>
-            <div>
-                {props.message}
-            </div>
+        <div style={{height: '50px'}}>
+        {props.alert && <div className={`alert alert-${props.alert.type} alert-dismissible fade show`} role="alert">
+           <strong>{capitalize(props.alert.type)}</strong>: {props.alert.msg} 
+        </div>}
         </div>
     )
 }

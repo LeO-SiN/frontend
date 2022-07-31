@@ -41,17 +41,18 @@ const Signup = (props) => {
                 body: formdata,
                 redirect: 'follow'
             };
+            props.showAlert("Account created successfully","success");
             //login the new user
             const response = await fetch(host + "login", requestOptionsLogin)
             const json = await response.json()
             if (json.detail.success) {
-                console.log(json.detail.access_token)
                 localStorage.setItem("token", json.detail.access_token)
                 navigate("/", { replace: true })
             }
         }
         else{
-            alert(jsonSign)
+
+            props.showAlert("Invalid Credentials","danger");
         }
 
 
