@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 const Login = (props) => {
-    const url = "http://localhost/login"
+    const url = "http://backend-api.ap-south-1.elasticbeanstalk.com/login"
     const [cred, setCred] = useState({ email: "", password: "" })
     let navigate = useNavigate();
     const onChange = (e) => {

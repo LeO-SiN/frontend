@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 
 const Signup = (props) => {
 
-    const host = "http://localhost/"
+    const host = "http://backend-api.ap-south-1.elasticbeanstalk.com/"
     const [cred, setCred] = useState({ name: "", email: "", password: "" })
     const onChange = (e) => {
         setCred({ ...cred, [e.target.name]: e.target.value })
