@@ -4,7 +4,7 @@ import axios from "axios";
 import NoteContext from "./NoteContext.js";
 
 const NoteState = (props) => {
-    const host = "http://backend-api.ap-south-1.elasticbeanstalk.com/notes/";
+    const host = "https://backend-n5xj2xtkxa-el.a.run.app/notes/";
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     var myHeaders = new Headers();
