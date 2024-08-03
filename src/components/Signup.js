@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 
 const Signup = (props) => {
 
-    const host = "https://backend-n5xj2xtkxa-el.a.run.app/"
+    const host = "https://backend-python-n5xj2xtkxa-el.a.run.app/"
     const [cred, setCred] = useState({ name: "", email: "", password: "" })
     const onChange = (e) => {
         setCred({ ...cred, [e.target.name]: e.target.value })
